@@ -1,6 +1,4 @@
-
-
-from whispercpp import Whisper
+from faster_whisper import WhisperModel
 import numpy as np
 from scipy.io import wavfile
 import io
@@ -18,12 +16,13 @@ from elevenlabs import set_api_key, stream, generate, Voice, VoiceSettings
 set_api_key(os.getenv("ELEVENLABS_API_KEY"))
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+
 class Transcriber:
     def __init__(self, model_name):
-        self.whisper = Whisper.from_pretrained(model_name)
+        self.whisper = WhisperModel(model_size_or_path="tiny.en", device='cpu')
 
     def transcribe_from_file(self, audio_file):
-        text = self.whisper.transcribe_from_file(audio_file)
+        text = self.whisper.transcribe(audio_file)
         return text
 
     def transcribe(self, audio_array):
