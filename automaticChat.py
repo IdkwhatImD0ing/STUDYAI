@@ -106,7 +106,7 @@ while True:
     with wave.open("voice_record.wav", 'wb') as wf:
         wf.setparams((1, audio.get_sample_size(pyaudio.paInt16), 16000, 0, 'NONE', 'NONE'))
         wf.writeframes(b''.join(frames))
-    user_text = " ".join(seg.text for seg in transcriber.transcribe_from_file("voice_record.wav", language="en")[0])
+    user_text = " ".join(seg.text for seg in transcriber.transcribe_from_file("voice_record.wav")[0])
     print(f'>>>{user_text}\n<<< ', end="", flush=True)
     history.append({'role': 'user', 'content': user_text})
 
