@@ -12,7 +12,8 @@ import os
 
 dotenv.load_dotenv()
 import openai
-from elevenlabs import set_api_key, stream, generate, Voice, VoiceSettings
+from elevenlabs import set_api_key, stream, Voice, VoiceSettings
+import elevenlabs
 set_api_key(os.getenv("ELEVENLABS_API_KEY"))
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -111,5 +112,5 @@ while True:
 
     # Generate and stream output
     generator = generate([system_prompt] + history[-10:])
-    stream(generate(text=generator, voice=voice, model="eleven_monolingual_v1", stream=True))
+    stream(elevenlabs.generate(text=generator, voice=voice, model="eleven_monolingual_v1", stream=True))
     history.append({'role': 'assistant', 'content': answer})
