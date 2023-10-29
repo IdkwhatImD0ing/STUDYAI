@@ -8,6 +8,7 @@ from STUDYAI.templates import template
 
 
 class Recorder(rx.Component):
+    """ """
     library = "../public/AutoRecorder.js"
     tag = "VoiceActivityComponent"
     is_default = True
@@ -16,15 +17,20 @@ class Recorder(rx.Component):
     chunk: Var[str]
 
     def _get_imports(self):
+        """ """
         return {}
 
     def _get_custom_code(self):
-        return """
-        import dynamic from "next/dynamic";
-        const VoiceActivityComponent = dynamic(() => import("../public/AutoRecorder.js"), { ssr: false }); 
+        """
+
+
+        :returns: import dynamic from "next/dynamic";
+        const VoiceActivityComponent = dynamic(() => import("../public/AutoRecorder.js"), { ssr: false });
+
         """
 
     def get_event_triggers(self) -> dict[str, Any]:
+        """ """
         return {
             **super().get_event_triggers(),
             "on_audio": lambda e0: [e0],
@@ -39,8 +45,9 @@ def recorderjs() -> rx.Component:
     """The recorder page.
     Yay
 
-    Returns:
-        The UI for the recorder page.
+
+    :returns: The UI for the recorder page.
+
     """
 
     return rx.center(
