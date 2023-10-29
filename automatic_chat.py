@@ -11,12 +11,7 @@ import os
 import openai
 import websockets
 from websockets.sync.client import connect
-import asyncio
 import json
-
-# mpv
-import shutil
-import subprocess
 
 dotenv.load_dotenv()
 
@@ -102,8 +97,6 @@ def generate(messages):
                                               messages=messages,
                                               stream=True):
         if text_chunk := chunk["choices"][0]["delta"].get("content"):
-            answer += text_chunk
-            print(text_chunk, end="", flush=True)
             yield text_chunk
 
 
