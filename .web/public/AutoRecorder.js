@@ -3,6 +3,7 @@ import RecordRTC from 'recordrtc'
 
 const VoiceActivityComponent = (props) => {
   const recordingRef = useRef(false)
+  const playingRef = useRef(false)
   const recorder = useRef(null)
   const microphone = useRef(null)
   const audioContextRef = useRef(null)
@@ -48,7 +49,10 @@ const VoiceActivityComponent = (props) => {
   }, [])
 
   useEffect(() => {
-    if (!props.chunk || props.chunk.length === 0) return
+    if (!props.chunk || props.chunk.length === 0 || !audioContextRef.current)
+      return
+
+    playingRef.current = true
 
     const promises = props.chunk.map(async (base64) => {
       const decoded = atob(base64)
@@ -92,10 +96,14 @@ const VoiceActivityComponent = (props) => {
     source.buffer = audioBuffer
     source.connect(audioContextRef.current.destination)
     source.start()
+
+    source.onended = () => {
+      playingRef.current = false
+    }
   }
 
   const startRecording = () => {
-    if (props.processing) {
+    if (props.processing || playingRef.current) {
       return
     }
     if (!recordingRef.current) {
@@ -121,14 +129,15 @@ const VoiceActivityComponent = (props) => {
       recordingRef.current = false
       console.log('Stop Recording')
       recorder.current.stopRecording(() => {
+        if (props.processing || playingRef.current) {
+          return
+        }
         const audioBlob = recorder.current.getBlob()
 
         const reader = new FileReader()
         reader.readAsDataURL(audioBlob)
         reader.onloadend = () => {
           const base64Audio = reader.result
-          // Print type of newAudio
-          console.log(props.onAudio)
           props.onAudio(base64Audio)
         }
       })

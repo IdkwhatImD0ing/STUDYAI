@@ -30,7 +30,7 @@ class VoiceProcessor extends AudioWorkletProcessor {
         if (average < threshold) {
           if (this.timeoutFrames === 0) {
             // Set the timeout in terms of audio frames. For example, for a 3-second timeout at a 44.1kHz sample rate:
-            this.timeoutFrames = this.frameCount + 3 * 44100
+            this.timeoutFrames = this.frameCount + 2 * 44100
           }
 
           if (this.frameCount >= this.timeoutFrames) {
