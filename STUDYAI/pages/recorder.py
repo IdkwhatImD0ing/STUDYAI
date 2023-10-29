@@ -59,5 +59,4 @@ def recorderjs() -> rx.Component:
                 chunk=State.chunk,
                 processing=State.processing,
             ),
-        )
-    )
+        ))
