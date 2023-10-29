@@ -18,6 +18,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 class Transcriber:
+
     def __init__(self, model_name):
         self.whisper = WhisperModel(model_size_or_path="tiny.en", device="cpu")
 
@@ -44,8 +45,10 @@ class Transcriber:
 
 
 system_prompt = {
-    "role": "system",
-    "content": """You are Eleanor, a mature, intelligent woman with years 
+    "role":
+    "system",
+    "content":
+    """You are Eleanor, a mature, intelligent woman with years 
     of experience in academia and personal development. 
     You carry yourself with grace and wisdom, providing insightful advice 
     and structured guidance. In this context, you are not an AI. 
@@ -81,9 +84,9 @@ history = []
 def generate(messages):
     global answer
     answer = ""
-    for chunk in openai.ChatCompletion.create(
-        model="gpt-3.5-turbo", messages=messages, stream=True
-    ):
+    for chunk in openai.ChatCompletion.create(model="gpt-3.5-turbo",
+                                              messages=messages,
+                                              stream=True):
         if text_chunk := chunk["choices"][0]["delta"].get("content"):
             answer += text_chunk
             print(text_chunk, end="", flush=True)
@@ -92,7 +95,8 @@ def generate(messages):
 
 def get_levels(data, long_term_noise_level, current_noise_level):
     pegel = np.abs(np.frombuffer(data, dtype=np.int16)).mean()
-    long_term_noise_level = long_term_noise_level * 0.995 + pegel * (1.0 - 0.995)
+    long_term_noise_level = long_term_noise_level * 0.995 + pegel * (1.0 -
+                                                                     0.995)
     current_noise_level = current_noise_level * 0.920 + pegel * (1.0 - 0.920)
     return pegel, long_term_noise_level, current_noise_level
 
@@ -118,8 +122,7 @@ while True:
     while True:
         data = stream.read(512)
         pegel, long_term_noise_level, current_noise_level = get_levels(
-            data, long_term_noise_level, current_noise_level
-        )
+            data, long_term_noise_level, current_noise_level)
         audio_buffer.append(data)
 
         if voice_activity_detected:
@@ -127,10 +130,8 @@ while True:
             if current_noise_level < ambient_noise_level + 100:
                 break  # voice activity ends
 
-        if (
-            not voice_activity_detected
-            and current_noise_level > long_term_noise_level + 300
-        ):
+        if (not voice_activity_detected
+                and current_noise_level > long_term_noise_level + 300):
             voice_activity_detected = True
             print("Listening.\n")
             ambient_noise_level = long_term_noise_level
@@ -139,22 +140,41 @@ while True:
     stream.stop_stream(), stream.close(), audio.terminate()
 
     # Transcribe recording using whisper
-    with wave.open("voice_record.wav", "wb") as wf:
-        wf.setparams(
-            (1, audio.get_sample_size(pyaudio.paInt16), 16000, 0, "NONE", "NONE")
-        )
-        wf.writeframes(b"".join(frames))
-    user_text = " ".join(
-        seg.text for seg in transcriber.transcribe_from_file("voice_record.wav")[0]
-    )
+    # Convert audio frames to bytes
+    audio_data = b"".join(frames)
+
+    # Create a BytesIO object and save it as a wav file in memory
+    buffer = io.BytesIO()
+    with wave.open(buffer, 'wb') as wf:
+        wf.setparams((1, audio.get_sample_size(pyaudio.paInt16), 16000, 0,
+                      'NONE', 'NONE'))
+        wf.writeframes(audio_data)
+
+    # Get the byte data from the BytesIO object
+    buffer_data = buffer.getvalue()
+
+    # Encode to Base64
+    encoded_audio = base64.b64encode(buffer_data).decode("utf-8")
+
+    # Decoding when needed
+    decoded_audio = base64.b64decode(encoded_audio)
+
+    # Read back using wavfile
+    sr, audio = wavfile.read(io.BytesIO(decoded_audio))
+    audio = audio.astype(np.float32)
+    audio = audio / np.max(np.abs(audio))
+
+    # Transcribe
+    user_text = " ".join(seg.text for seg in transcriber.transcribe(audio)[0])
+
     print(f">>>{user_text}\n<<< ", end="", flush=True)
     history.append({"role": "user", "content": user_text})
 
     # Generate and stream output
     generator = generate([system_prompt] + history[-10:])
     elevenlabs.stream(
-        elevenlabs.generate(
-            text=generator, voice=voice, model="eleven_monolingual_v1", stream=True
-        )
-    )
+        elevenlabs.generate(text=generator,
+                            voice=voice,
+                            model="eleven_monolingual_v1",
+                            stream=True))
     history.append({"role": "assistant", "content": answer})
