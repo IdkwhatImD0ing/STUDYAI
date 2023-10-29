@@ -11,12 +11,7 @@ import os
 import openai
 import websockets
 from websockets.sync.client import connect
-import asyncio
 import json
-
-# mpv
-import shutil
-import subprocess
 
 dotenv.load_dotenv()
 

@@ -1,73 +1,73 @@
-# Welcome to Reflex!
+# S.T.U.D.Y.A.I
 
-This is the base Reflex template - installed when you run `reflex init`.
+Systematic Teaching Using Dynamic Yielding and Autonomous Intelligence
 
-If you want to use a different template, pass the `--template` flag to `reflex init`.
-For example, if you want a more basic starting point, you can run:
+---
 
-```bash
-reflex init --template blank
-```
+## Overview
+Studyai is a groundbreaking, voice-activated study assistant engineered to redefine the self-study experience. Utilizing cutting-edge machine learning, voice recognition, and natural language understanding technologies, this platform offers an array of features designed to facilitate efficient and effective study sessions.
 
-## About this Template
+---
 
-This template has the following directory structure:
+## Inspiration
+In an era flooded with information, the conventional methods of self-study are fraught with challenges like information overload, disorganized note management, and a lack of personalized learning experiences. Autostudy Buddy was conceived to tackle these issues head-on, offering a revolutionary approach to academic learning and comprehension.
 
-```bash
-├── README.md
-├── assets
-├── rxconfig.py
-└── {your_app}
-    ├── __init__.py
-    ├── components
-    │   ├── __init__.py
-    │   └── sidebar.py
-    ├── pages
-    │   ├── __init__.py
-    │   ├── dashboard.py
-    │   ├── index.py
-    │   └── settings.py
-    ├── state.py
-    ├── styles.py
-    ├── templates
-    │   ├── __init__.py
-    │   └── template.py
-    └── {your_app}.py
-```
+---
 
-See the [Project Structure docs](https://reflex.dev/docs/getting-started/project-structure/) for more information on general Reflex project structure.
+## Goals
+Our mission is to revolutionize self-study by providing an intelligent, voice-activated assistant that delivers a seamless and intuitive user experience. Autostudy Buddy aims to become the go-to platform for students, offering features like text and video summarization, explanatory image generation, educational video recommendations, and personalized note management.
 
-### Adding Pages
+---
 
-In this template, the pages in your app are defined in `{your_app}/pages/`.
-Each page is a function that returns a Reflex component.
-For example, to edit this page you can modify `{your_app}/pages/index.py`.
-See the [pages docs](https://reflex.dev/docs/components/pages/) for more information on pages.
+## Built With
+- **Frontend**: Reflex.dev with React components as plugins
+- **Backend**: FastAPI
+- **Voice Recognition and Text-to-Speech**: 11Labs, LLM
+- **Autonomous Agents**: OpenAI function calling agents
+- **Text Summarization**: TogetherAI
+- **Image Generation**: TogetherAI
+- **Database**: MindsDB
+- **YouTube Integration**: MindsDB with YouTube API
 
-In this template, instead of using `rx.add_page` or the `@rx.page` decorator,
-we use the `@template` decorator from `{your_app}/templates/template.py`.
+---
 
-To add a new page:
+## Challenges
+- Implementing real-time voice recognition and natural language understanding.
+- Ensuring seamless integration of multiple technologies, including machine learning models and external APIs.
+- Achieving scalability while maintaining high performance and reliability.
+- Ensuring data privacy and security.
 
-1. Add a new file in `{your_app}/pages/`. We recommend using one file per page, but you can also group pages in a single file.
-2. Add a new function with the `@template` decorator, which takes the same arguments as `@rx.page`.
-3. Import the page in your `{your_app}/pages/__init__.py` file and it will automatically be added to the app.
+---
 
+## Accomplishments
+- Successfully developed a voice-activated command parsing module.
+- Implemented autonomous decision-making capabilities using OpenAI.
+- Engineered data fetching and summarization modules with high accuracy and efficiency.
+- Integrated YouTube API for enriched educational content.
+- Designed an effective note management system using MindsDB.
 
-### Adding Components
+---
 
-In order to keep your code organized, we recommend putting components that are
-used across multiple pages in the `{your_app}/components/` directory.
+## What We Learned
+- How to integrate machine learning and voice recognition technologies to create a seamless user experience.
+- The importance of a modular architecture for scalability and future expansions.
+- How to manage and manipulate large datasets for quick and accurate retrieval.
+- The nuances of user experience design, particularly for an educational tool.
 
-In this template, we have a sidebar component in `{your_app}/components/sidebar.py`.
+---
 
-### Adding State
+## What's Next
+- Implementing a personalized learning path based on user behavior and preferences.
+- Expanding the database to include more academic resources and journals.
+- Launching a mobile application to make Autostudy Buddy accessible on the go.
+- Exploring partnerships with educational institutions for broader reach and impact.
 
-In this template, we define the base state of the app in `{your_app}/state.py`.
-The base state is useful for general app state that is used across multiple pages.
+---
 
-In this template, the base state handles the toggle for the sidebar.
-
-As your app grows, we recommend using [substates](https://reflex.dev/docs/state/substates/)
-to organize your state. You can either define substates in their own files, or if the state is
-specific to a page, you can define it in the page file itself.
+## Functions
+- **Voice Activation and Command Parsing**: Understands user needs through voice commands.
+- **Autonomous Decision Making**: Adapts to the user's needs, activating the most useful tools or functionalities.
+- **Text Summarization**: Offers concise, yet comprehensive, academic information.
+- **Image Generation**: Provides visual aids for complex topics.
+- **YouTube Video Suggestions**: Recommends relevant educational videos.
+- **Note Management**: Organizes user-uploaded study notes for easy retrieval.
