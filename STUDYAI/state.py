@@ -187,6 +187,8 @@ class State(rx.State):
             self.chunk = audio_data
 
     def on_audio(self, audio: str):
+        if (self.processing):
+            return
         self.processing = True
         try:
             # Decoding when needed
@@ -202,6 +204,9 @@ class State(rx.State):
             user_text = " ".join(seg.text
                                  for seg in transcriber.transcribe(audio)[0])
             print(user_text)
+            if len(user_text) < 10:
+                self.processing = False
+                return
 
             # Add to history
             self.history.append({"role": "user", "content": user_text})
@@ -214,7 +219,6 @@ class State(rx.State):
             text_generator = self.generate([system_prompt] +
                                            self.history[-10:])
             self.generate_stream_input(text_generator, voice, model)
-            print(self.answer)
             self.history.append({"role": "assistant", "content": self.answer})
             print(self.history)
             self.processing = False

@@ -102,8 +102,6 @@ def generate(messages):
                                               messages=messages,
                                               stream=True):
         if text_chunk := chunk["choices"][0]["delta"].get("content"):
-            answer += text_chunk
-            print(text_chunk, end="", flush=True)
             yield text_chunk
 
 
