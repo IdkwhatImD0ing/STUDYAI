@@ -19,23 +19,44 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 class Transcriber:
+    """ """
     def __init__(self, model_name):
         self.whisper = WhisperModel(model_size_or_path="tiny.en", device="cpu")
 
     def transcribe_from_file(self, audio_file):
+        """
+
+        :param audio_file: 
+
+        """
         text = self.whisper.transcribe(audio_file)
         return text
 
     def transcribe(self, audio_array):
+        """
+
+        :param audio_array: 
+
+        """
         text = self.whisper.transcribe(audio_array)
         return text
 
     def encode_audio(self, audio_file):
+        """
+
+        :param audio_file: 
+
+        """
         with open(audio_file, "rb") as audio_file:
             encoded_audio = base64.b64encode(audio_file.read())
         return encoded_audio
 
     def decode_audio_to_np_array(self, encoded_audio):
+        """
+
+        :param encoded_audio: 
+
+        """
         decoded_audio = base64.b64decode(encoded_audio)
         sr, audio = wavfile.read(io.BytesIO(decoded_audio))
         audio = audio.astype(np.float32)
@@ -68,6 +89,11 @@ history = []
 
 
 def generate(messages):
+    """
+
+    :param messages: 
+
+    """
     global answer
     answer = ""
     for chunk in openai.ChatCompletion.create(
@@ -80,6 +106,13 @@ def generate(messages):
 
 
 def get_levels(data, long_term_noise_level, current_noise_level):
+    """
+
+    :param data: 
+    :param long_term_noise_level: 
+    :param current_noise_level: 
+
+    """
     pegel = np.abs(np.frombuffer(data, dtype=np.int16)).mean()
     long_term_noise_level = long_term_noise_level * 0.995 + pegel * (1.0 - 0.995)
     current_noise_level = current_noise_level * 0.920 + pegel * (1.0 - 0.920)
