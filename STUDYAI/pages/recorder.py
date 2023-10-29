@@ -37,6 +37,7 @@ recorder = Recorder.create
 @template(route="/recorder", title="Recorder", image="/github.svg")
 def recorderjs() -> rx.Component:
     """The recorder page.
+    Yay
 
     Returns:
         The UI for the recorder page.

@@ -201,7 +201,7 @@ class State(rx.State):
             user_text = " ".join(seg.text
                                  for seg in transcriber.transcribe(audio)[0])
             print(user_text)
-            if len(user_text) < 10:
+            if len(user_text) < 5:
                 self.processing = False
                 return
 
