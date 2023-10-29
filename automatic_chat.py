@@ -1,15 +1,16 @@
-from faster_whisper import WhisperModel
-import numpy as np
-from scipy.io import wavfile
-import io
 import base64
-import pyaudio
-import wave
 import collections
-import dotenv
+import io
 import os
-import openai
+import wave
+
+import dotenv
 import elevenlabs
+import numpy as np
+import openai
+import pyaudio
+from faster_whisper import WhisperModel
+from scipy.io import wavfile
 
 dotenv.load_dotenv()
 
