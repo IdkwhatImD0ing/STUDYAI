@@ -135,7 +135,7 @@ const VoiceActivityComponent = (props) => {
     }
   }
 
-  return <div>Autonomous Voice Activity Component</div>
+  return null
 }
 
 export default VoiceActivityComponent
