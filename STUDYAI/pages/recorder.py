@@ -8,7 +8,16 @@ class Recorder(rx.Component):
     library = "../public/AutoRecorder.js"
     tag = "VoiceActivityComponent"
     is_default = True
-    lib__dependencies: list[str] = ["recordrtc"]
+    lib_dependencies: list[str] = ["recordrtc"]
+
+    def _get_imports(self):
+        return {}
+
+    def _get_custom_code(self):
+        return """
+        import dynamic from "next/dynamic";
+        const VoiceActivityComponent = dynamic(() => import("../public/AutoRecorder.js"), { ssr: false }); 
+        """
 
 
 recorder = Recorder.create

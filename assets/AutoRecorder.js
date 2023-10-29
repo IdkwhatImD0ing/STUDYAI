@@ -1,25 +1,33 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useRef} from 'react'
 import RecordRTC from 'recordrtc'
 
 const VoiceActivityComponent = () => {
-  const [recording, setRecording] = useState(false)
+  const recordingRef = useRef(false)
   const recorder = useRef(null)
   const microphone = useRef(null)
 
   const startRecording = () => {
-    console.log('Start Recording')
-    if (!recording) {
+    if (!recordingRef.current) {
+      console.log('Start Recording')
+      const options = {
+        type: 'audio',
+        recorderType: RecordRTC.StereoAudioRecorder,
+        desiredSampRate: 16000,
+        numberOfAudioChannels: 1,
+      }
+
+      recorder.current = RecordRTC(microphone.current, options)
       recorder.current.startRecording()
-      setRecording(true)
+      recordingRef.current = true
     }
   }
 
   const stopRecording = () => {
-    console.log('Stop Recording')
-    if (recording) {
+    if (recordingRef.current) {
+      recordingRef.current = false
+      console.log('Stop Recording')
       recorder.current.stopRecording(() => {
         const audioBlob = recorder.current.getBlob()
-        setRecording(false)
 
         const reader = new FileReader()
         reader.readAsDataURL(audioBlob)
@@ -32,20 +40,11 @@ const VoiceActivityComponent = () => {
     }
   }
 
-  const initializeAudio = () => {
+  useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({audio: true})
       .then((stream) => {
         microphone.current = stream
-
-        const options = {
-          type: 'audio',
-          recorderType: RecordRTC.StereoAudioRecorder,
-          desiredSampRate: 16000,
-          numberOfAudioChannels: 1,
-        }
-
-        recorder.current = RecordRTC(stream, options)
 
         const audioContext = new AudioContext()
         const mediaStreamSource = audioContext.createMediaStreamSource(stream)
@@ -76,9 +75,9 @@ const VoiceActivityComponent = () => {
       .catch((err) => {
         console.error(`Failed to get user media: ${err}`)
       })
-  }
+  }, [])
 
-  return <button onClick={initializeAudio}>Initialize</button>
+  return <div>Autonomous Voice Activity Component</div>
 }
 
 export default VoiceActivityComponent

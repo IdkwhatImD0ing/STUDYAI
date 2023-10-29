@@ -6,11 +6,14 @@ import "focus-visible/dist/focus-visible"
 import { Box, Center, HStack, Image, Link, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Spacer, Text, VStack } from "@chakra-ui/react"
 import { getEventURL } from "/utils/state.js"
 import NextLink from "next/link"
-import VoiceActivityComponent from "../public/AutoRecorder.js"
 import { HamburgerIcon } from "@chakra-ui/icons"
 import NextHead from "next/head"
 
 
+
+        import dynamic from "next/dynamic";
+        const VoiceActivityComponent = dynamic(() => import("../public/AutoRecorder.js"), { ssr: false }); 
+        
 
 export default function Component() {
   const state = useContext(StateContext)
