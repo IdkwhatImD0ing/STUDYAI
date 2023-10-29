@@ -277,7 +277,6 @@ while True:
     history.append({"role": "user", "content": user_text})
 
     # Generate and stream output
-    generator = generate([system_prompt] + history[-10:])
     model = {
         "model_id": "eleven_monolingual_v1",
     }

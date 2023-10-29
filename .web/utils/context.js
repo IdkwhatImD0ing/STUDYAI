@@ -1,7 +1,7 @@
 import { createContext, useState } from "react"
 import { Event, hydrateClientStorage, useEventLoop } from "/utils/state.js"
 
-export const initialState = {"image": "", "is_hydrated": false, "processing": 0, "router": {"session": {"client_token": "", "client_ip": "", "session_id": ""}, "headers": {"host": "", "origin": "", "upgrade": "", "connection": "", "pragma": "", "cache_control": "", "user_agent": "", "sec_websocket_version": "", "sec_websocket_key": "", "sec_websocket_extensions": "", "accept_encoding": "", "accept_language": ""}, "page": {"host": "", "path": "", "raw_path": "", "full_path": "", "full_raw_path": "", "params": {}}}, "streamChunks": [], "text": "", "view": "", "youtubeLink": ""}
+export const initialState = {"answer": "", "chunk": "", "history": [], "image": "", "is_hydrated": false, "processing": false, "router": {"session": {"client_token": "", "client_ip": "", "session_id": ""}, "headers": {"host": "", "origin": "", "upgrade": "", "connection": "", "pragma": "", "cache_control": "", "user_agent": "", "sec_websocket_version": "", "sec_websocket_key": "", "sec_websocket_extensions": "", "accept_encoding": "", "accept_language": ""}, "page": {"host": "", "path": "", "raw_path": "", "full_path": "", "full_raw_path": "", "params": {}}}, "text": "", "view": null, "youtubeLink": ""}
 
 export const ColorModeContext = createContext(null);
 export const StateContext = createContext(null);

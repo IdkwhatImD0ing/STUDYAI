@@ -1,7 +1,9 @@
 from STUDYAI.templates import template
 
 import reflex as rx
+from reflex.vars import Var
 from STUDYAI.state import State
+from typing import Callable, Any
 
 
 class Recorder(rx.Component):
@@ -10,9 +12,8 @@ class Recorder(rx.Component):
     tag = "VoiceActivityComponent"
     is_default = True
     lib_dependencies: list[str] = ["recordrtc"]
-    processing = State.processing
-    newAudio = State.newAudio
-    chunks = State.streamChunks
+    processing: Var[bool]
+    chunk: Var[str]
 
     def _get_imports(self):
         return {}
@@ -22,6 +23,12 @@ class Recorder(rx.Component):
         import dynamic from "next/dynamic";
         const VoiceActivityComponent = dynamic(() => import("../public/AutoRecorder.js"), { ssr: false }); 
         """
+
+    def get_event_triggers(self) -> dict[str, Any]:
+        return {
+            **super().get_event_triggers(),
+            "on_audio": lambda e0: [e0],
+        }
 
 
 recorder = Recorder.create
@@ -35,4 +42,11 @@ def recorderjs() -> rx.Component:
         The UI for the recorder page.
     """
 
-    return rx.center(rx.hstack(rx.text("Recorder"), recorder()))
+    return rx.center(
+        rx.hstack(
+            rx.text("Recorder"),
+            recorder(
+                on_audio=lambda e: State.on_audio(e),
+                chunk=State.chunk,
+                processing=State.processing,
+            )))
