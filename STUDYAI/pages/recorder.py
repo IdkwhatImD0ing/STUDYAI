@@ -1,6 +1,7 @@
 from STUDYAI.templates import template
 
 import reflex as rx
+from STUDYAI.state import State
 
 
 class Recorder(rx.Component):
@@ -9,6 +10,9 @@ class Recorder(rx.Component):
     tag = "VoiceActivityComponent"
     is_default = True
     lib_dependencies: list[str] = ["recordrtc"]
+    processing = State.processing
+    newAudio = State.newAudio
+    chunks = State.streamChunks
 
     def _get_imports(self):
         return {}

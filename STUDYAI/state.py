@@ -10,10 +10,19 @@ class State(rx.State):
     """
 
     view: str
+    processing: bool
 
     youtubeLink: str
     text: str
     image: str
+    streamChunks: list[str]
+
+    def newAudio(self, audio: str):
+        self.processing = True
+        # Imagine streaming audio here
+        # Imagine chunks is the new audio
+        chunks = ''
+        streamChunks = chunks
 
     def setView(self, view: str):
         self.view = view
@@ -23,6 +32,6 @@ class State(rx.State):
 
     def setText(self, text: str):
         self.text = text
-    
+
     def setImage(self, image: str):
         self.image = image

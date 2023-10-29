@@ -137,7 +137,7 @@ export default function Component() {
   <Text>
   {`Recorder`}
 </Text>
-  <VoiceActivityComponent/>
+  <VoiceActivityComponent chunks={state.streamChunks} newAudio={{"fn": null}} processing={state.processing}/>
 </HStack>
 </Center>
 </Box>

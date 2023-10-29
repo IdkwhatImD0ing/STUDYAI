@@ -1,12 +1,46 @@
 import React, {useEffect, useRef} from 'react'
 import RecordRTC from 'recordrtc'
 
-const VoiceActivityComponent = () => {
+const VoiceActivityComponent = (props) => {
   const recordingRef = useRef(false)
   const recorder = useRef(null)
   const microphone = useRef(null)
 
+  const queueRef = useRef([])
+  const isPlayingRef = useRef(false)
+
+  useEffect(() => {
+    queueRef.current = [...queueRef.current, props.chunks]
+    if (!isPlayingRef.current) {
+      playQueue()
+    }
+  }, [props.chunks])
+
+  const playQueue = async () => {
+    if (isPlayingRef.current) return
+
+    isPlayingRef.current = true
+
+    while (queueRef.current.length > 0) {
+      const currentChunk = queueRef.current.shift() // Dequeue
+
+      const audio = new Audio(currentChunk)
+      audio.play()
+
+      await new Promise((resolve) => {
+        audio.onended = () => {
+          resolve()
+        }
+      })
+    }
+
+    isPlayingRef.current = false
+  }
+
   const startRecording = () => {
+    if (props.processing) {
+      return
+    }
     if (!recordingRef.current) {
       console.log('Start Recording')
       const options = {
@@ -23,6 +57,9 @@ const VoiceActivityComponent = () => {
   }
 
   const stopRecording = () => {
+    if (props.processing) {
+      return
+    }
     if (recordingRef.current) {
       recordingRef.current = false
       console.log('Stop Recording')
@@ -34,7 +71,7 @@ const VoiceActivityComponent = () => {
         reader.onloadend = () => {
           const base64Audio = reader.result
           console.log(base64Audio)
-          // sendAudioToServer(base64Audio);
+          props.newAudio(base64Audio)
         }
       })
     }
