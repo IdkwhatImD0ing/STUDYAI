@@ -1,9 +1,10 @@
-from STUDYAI.templates import template
+from typing import Any, Callable
 
 import reflex as rx
 from reflex.vars import Var
+
 from STUDYAI.state import State
-from typing import Callable, Any
+from STUDYAI.templates import template
 
 
 class Recorder(rx.Component):
