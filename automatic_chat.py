@@ -26,7 +26,7 @@ class Transcriber:
     def transcribe_from_file(self, audio_file):
         """
 
-        :param audio_file: 
+        :param audio_file:
 
         """
         text = self.whisper.transcribe(audio_file)
@@ -35,7 +35,7 @@ class Transcriber:
     def transcribe(self, audio_array):
         """
 
-        :param audio_array: 
+        :param audio_array:
 
         """
         text = self.whisper.transcribe(audio_array)
@@ -44,7 +44,7 @@ class Transcriber:
     def encode_audio(self, audio_file):
         """
 
-        :param audio_file: 
+        :param audio_file:
 
         """
         with open(audio_file, "rb") as audio_file:
@@ -54,7 +54,7 @@ class Transcriber:
     def decode_audio_to_np_array(self, encoded_audio):
         """
 
-        :param encoded_audio: 
+        :param encoded_audio:
 
         """
         decoded_audio = base64.b64decode(encoded_audio)
@@ -91,7 +91,7 @@ history = []
 def generate(messages):
     """
 
-    :param messages: 
+    :param messages:
 
     """
     global answer
@@ -108,9 +108,9 @@ def generate(messages):
 def get_levels(data, long_term_noise_level, current_noise_level):
     """
 
-    :param data: 
-    :param long_term_noise_level: 
-    :param current_noise_level: 
+    :param data:
+    :param long_term_noise_level:
+    :param current_noise_level:
 
     """
     pegel = np.abs(np.frombuffer(data, dtype=np.int16)).mean()
