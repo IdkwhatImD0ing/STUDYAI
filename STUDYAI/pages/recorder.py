@@ -7,7 +7,6 @@ from typing import Callable, Any
 
 
 class Recorder(rx.Component):
-
     library = "../public/AutoRecorder.js"
     tag = "VoiceActivityComponent"
     is_default = True
@@ -50,4 +49,6 @@ def recorderjs() -> rx.Component:
                 on_audio=lambda e: State.on_audio(e),
                 chunk=State.chunk,
                 processing=State.processing,
-            )))
+            ),
+        )
+    )
