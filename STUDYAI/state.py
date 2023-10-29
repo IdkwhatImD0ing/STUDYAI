@@ -16,9 +16,6 @@ import websockets
 from websockets.sync.client import connect
 import json
 
-# mpv
-import subprocess
-
 dotenv.load_dotenv()
 
 elevenlabs_api_key = os.getenv("ELEVENLABS_API_KEY")
